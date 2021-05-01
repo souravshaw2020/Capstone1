@@ -1,0 +1,25 @@
+function sendOTP() {
+        $config = Karix\Configuration::getDefaultConfiguration();
+        $config->setUsername('ACCOUNT_ID');
+        $config->setPassword('ACCOUNT_TOKEN');
+
+        $apiInstance = new Karix\Api\MessageApi(
+            new GuzzleHttp\Client(),
+            $config
+        );
+        $message = new Karix\Model\CreateMessage();
+
+        $message->setChannel("sms");
+        $message->setDestination(["+1XXX8323XXX", "+1XXX3234XXX"]);
+        $message->setSource("+1XXX2321XXX");
+        $message->setContent([
+            "text" => "OTP",
+        ]);
+
+        try {
+            $result = $apiInstance->sendMessage($message);
+            print_r($result);
+        } catch (Exception $e) {
+            echo 'Exception when calling MessageApi->createMessage: ', $e->getMessage(), PHP_EOL;
+        }
+    }
